@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#D4537E">
+<title>MomFlow Wilailak</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- HEADER -->
+  <header id="app-header">
+    <div class="brand">
+      <img src="icons/icon-192.png" alt="MomFlow" class="brand-icon">
+      <div class="brand-text">
+        <div class="brand-title">MomFlow</div>
+        <div class="brand-sub" id="greeting">สวัสดี วิไลลักษณ์ 👋</div>
+      </div>
+    </div>
+    <button class="icon-btn" id="settings-btn" aria-label="ตั้งค่า"><i class="ti ti-settings"></i></button>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="content">
+
+    <!-- HOME -->
+    <section class="tab-panel active" id="tab-home">
+      <div class="grid2">
+        <div class="card metric">
+          <div class="metric-head"><i class="ti ti-list-check"></i><span>งานวันนี้</span></div>
+          <div class="metric-num" id="home-task-count">0</div>
+          <div class="metric-sub" id="home-task-done">เสร็จแล้ว 0 งาน</div>
+        </div>
+        <div class="card metric">
+          <div class="metric-head"><i class="ti ti-calendar-event"></i><span>นัดถัดไป</span></div>
+          <div class="metric-num small" id="home-next-time">--:--</div>
+          <div class="metric-sub" id="home-next-text">ไม่มีนัดวันนี้</div>
+        </div>
+        <div class="card metric">
+          <div class="metric-head"><i class="ti ti-wallet"></i><span>เงินคงเหลือ</span></div>
+          <div class="metric-num teal" id="home-balance">0</div>
+          <div class="metric-sub">บาท เดือนนี้</div>
+        </div>
+        <div class="card metric ai-card" data-tab="chat">
+          <div class="metric-head"><i class="ti ti-message-circle-2"></i><span>คุยกับจุ้ย</span></div>
+          <div class="metric-title">แตะเพื่อถาม</div>
+          <div class="metric-sub">พร้อมช่วยเสมอ</div>
+        </div>
+      </div>
+
+      <div class="card section">
+        <div class="section-head">
+          <span>เพิ่มแบบไว — Quick Add</span>
+        </div>
+        <p class="hint">พิมพ์บรรทัดเดียว เช่น "ค่าเทอม 4500 บาท วันศุกร์" ระบบจะสร้างงาน นัดหมาย และรายจ่ายให้พร้อมกัน</p>
+        <div class="row">
+          <input type="text" id="quick-add-input" placeholder="พิมพ์ที่นี่...">
+          <button class="btn primary" id="quick-add-btn"><i class="ti ti-bolt"></i></button>
+        </div>
+      </div>
+
+      <div class="card section">
+        <div class="section-head">
+          <span>งานวันนี้</span>
+          <button class="link-btn" data-goto="todo">ดูทั้งหมด</button>
+        </div>
+        <div id="home-tasks"></div>
+      </div>
+
+      <div class="card section">
+        <div class="section-head">
+          <span>ไทม์ไลน์วันนี้</span>
+          <button class="link-btn" data-goto="cal">ปฏิทิน</button>
+        </div>
+        <div id="home-timeline"></div>
+      </div>
+    </section>
+
+    <!-- TODO -->
+    <section class="tab-panel" id="tab-todo">
+      <div class="chip-row" id="cat-filters"></div>
+      <div id="todo-list" class="card section"></div>
+      <div class="card section dashed">
+        <div class="section-head"><span>เพิ่มงานใหม่</span></div>
+        <p class="hint">พิมพ์งาน เช่น "ซื้อรองเท้านักเรียน วันเสาร์" ระบบช่วยตั้งวันและหมวดให้อัตโนมัติ</p>
+        <div class="row">
+          <input type="text" id="task-input" placeholder="พิมพ์งาน...">
+          <button class="btn primary" id="task-add-btn"><i class="ti ti-plus"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="tab-panel" id="tab-cal">
+      <div class="seg" id="cal-views">
+        <button class="seg-btn active" data-view="day">รายวัน</button>
+        <button class="seg-btn" data-view="week">รายสัปดาห์</button>
+        <button class="seg-btn" data-view="month">รายเดือน</button>
+      </div>
+
+      <div class="card section">
+        <div class="cal-nav">
+          <button class="icon-btn" id="cal-prev"><i class="ti ti-chevron-left"></i></button>
+          <div id="cal-title">มิถุนายน 2026</div>
+          <button class="icon-btn" id="cal-next"><i class="ti ti-chevron-right"></i></button>
+        </div>
+        <div id="cal-grid"></div>
+      </div>
+
+      <div class="legend">
+        <span><i class="dot c-green"></i>ลูกอนุบาล</span>
+        <span><i class="dot c-blue"></i>ลูก ม.3</span>
+        <span><i class="dot c-amber"></i>การเงิน</span>
+        <span><i class="dot c-red"></i>เรื่องด่วน</span>
+        <span><i class="dot c-teal"></i>บ้าน</span>
+        <span><i class="dot c-purple"></i>สุขภาพ</span>
+      </div>
+
+      <div class="card section">
+        <div class="section-head"><span id="cal-list-title">นัดหมายวันนี้</span></div>
+        <div id="events-list"></div>
+      </div>
+
+      <div class="card section dashed">
+        <div class="section-head"><span>เพิ่มนัดหมาย</span></div>
+        <p class="hint">เช่น "ประชุมผู้ปกครอง 14:00" หรือ "ค่าเทอม 4500 บาท 15 ต.ค." (ระบบตั้งเตือนล่วงหน้า 30/7/1 วันให้อัตโนมัติสำหรับรายการค่าใช้จ่าย)</p>
+        <div class="row">
+          <input type="text" id="event-input" placeholder="พิมพ์นัดหมาย...">
+          <button class="btn primary" id="event-add-btn"><i class="ti ti-plus"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MONEY -->
+    <section class="tab-panel" id="tab-money">
+      <div class="grid2">
+        <div class="card metric income">
+          <div class="metric-head c-teal-text"><span>รายรับ</span></div>
+          <div class="metric-num c-teal-text" id="total-income">0</div>
+          <div class="metric-sub c-teal-text">บาท</div>
+        </div>
+        <div class="card metric expense">
+          <div class="metric-head c-red-text"><span>รายจ่าย</span></div>
+          <div class="metric-num c-red-text" id="total-expense">0</div>
+          <div class="metric-sub c-red-text">บาท</div>
+        </div>
+      </div>
+      <div class="balance-banner">
+        <span>เหลือเดือนนี้</span>
+        <span id="balance-amt">0 บาท</span>
+      </div>
+
+      <div class="card section">
+        <div class="section-head"><span>รายการล่าสุด</span></div>
+        <div id="money-list"></div>
+      </div>
+
+      <div class="card section dashed">
+        <div class="section-head"><span>เพิ่มรายการแบบแชท</span></div>
+        <p class="hint">พิมพ์เหมือนแชท เช่น "+ เงินเดือน 18000" หรือ "- ค่าอาหาร 120"</p>
+        <div class="row">
+          <input type="text" id="money-input" placeholder="+ รายรับ หรือ - รายจ่าย...">
+          <button class="btn primary" id="money-add-btn"><i class="ti ti-plus"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAT -->
+    <section class="tab-panel" id="tab-chat">
+      <div id="chat-messages"></div>
+    </section>
+
+  </main>
+
+  <!-- CHAT INPUT BAR (only visible on chat tab) -->
+  <div id="chat-bar">
+    <input type="text" id="chat-input" placeholder="พิมพ์ถามจุ้ยได้เลย...">
+    <button class="send-btn" id="chat-send-btn" aria-label="ส่ง"><i class="ti ti-send"></i></button>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav id="tab-bar">
+    <button class="nav-item active" data-tab="home"><i class="ti ti-home"></i><span>หน้าหลัก</span></button>
+    <button class="nav-item" data-tab="todo"><i class="ti ti-list-check"></i><span>งาน</span></button>
+    <button class="nav-item" data-tab="cal"><i class="ti ti-calendar"></i><span>ปฏิทิน</span></button>
+    <button class="nav-item" data-tab="money"><i class="ti ti-wallet"></i><span>เงิน</span></button>
+    <button class="nav-item" data-tab="chat"><i class="ti ti-message-circle-2"></i><span>จุ้ย</span></button>
+  </nav>
+
+</div>
+
+<!-- SETTINGS / PREMIUM SHEET -->
+<div id="settings-overlay" class="overlay">
+  <div class="sheet">
+    <div class="sheet-head">
+      <span>ตั้งค่า &amp; แพ็กเกจ</span>
+      <button class="icon-btn" id="settings-close"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="sheet-body">
+      <div class="card section" id="install-card" style="display:none;">
+        <div class="section-head"><span><i class="ti ti-download" style="vertical-align:-3px;margin-right:4px;"></i>ติดตั้งแอปลงหน้าจอโฮม</span></div>
+        <p class="hint">กดปุ่มด้านล่างเพื่อติดตั้ง MomFlow เป็นแอปบนมือถือ</p>
+        <button class="btn primary full" id="install-btn">ติดตั้งแอป</button>
+      </div>
+
+      <div class="card section">
+        <div class="section-head"><span><i class="ti ti-robot" style="vertical-align:-3px;margin-right:4px;"></i>ผู้ช่วย AI — จุ้ย</span></div>
+        <p class="hint">ใส่ Anthropic API key เพื่อให้จุ้ยคุยได้ทุกเรื่องแบบ AI จริง (เก็บไว้ในเครื่องนี้เท่านั้น) หากไม่ใส่ จุ้ยจะใช้ระบบช่วยจดงาน/นัดหมาย/เงินแบบพื้นฐานแทน</p>
+        <div class="row">
+          <input type="password" id="api-key-input" placeholder="sk-ant-...">
+          <button class="btn primary" id="api-key-save"><i class="ti ti-check"></i></button>
+        </div>
+        <p class="hint" style="margin-top:8px;margin-bottom:0;">ขอ API key ได้ที่ console.anthropic.com — คีย์จะถูกเก็บในเบราว์เซอร์นี้เท่านั้น ไม่ถูกส่งไปที่อื่น</p>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-title"><i class="ti ti-leaf"></i> ฟรี</div>
+        <ul>
+          <li>To-Do List</li>
+          <li>Calendar</li>
+          <li>รายรับรายจ่าย</li>
+          <li>แจ้งเตือน</li>
+          <li>Timeline</li>
+        </ul>
+      </div>
+      <div class="plan-card premium">
+        <div class="plan-title"><i class="ti ti-crown"></i> Premium</div>
+        <ul>
+          <li>คุยกับจุ้ย (AI Chat Assistant)</li>
+          <li>วิเคราะห์การเงิน</li>
+          <li>คาดการณ์ค่าใช้จ่าย</li>
+          <li>ค้นหาทุนการศึกษา</li>
+          <li>สรุปรายเดือนอัตโนมัติ</li>
+        </ul>
+        <button class="btn primary full" id="premium-btn">อัปเกรดเป็น Premium</button>
+      </div>
+      <div class="card section">
+        <div class="section-head"><span>ข้อมูล</span></div>
+        <p class="hint">MomFlow Wilailak — แอปเดียวจบสำหรับแม่เลี้ยงเดี่ยว จัดการงาน นัดหมาย และเงิน พร้อมผู้ช่วย AI ชื่อ "จุ้ย" ที่พร้อมช่วยดูแลทุกวันของคุณ</p>
+        <button class="btn full" id="reset-btn"><i class="ti ti-refresh"></i> รีเซ็ตข้อมูลตัวอย่าง</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

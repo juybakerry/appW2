@@ -1,0 +1,26 @@
+{
+  "name": "MomFlow Wilailak",
+  "short_name": "MomFlow",
+  "description": "แอปเดียวจบสำหรับแม่เลี้ยงเดี่ยว จัดการงาน นัดหมาย เงิน และคุยกับจุ้ย AI ผู้ช่วยส่วนตัว",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAF7F8",
+  "theme_color": "#D4537E",
+  "orientation": "portrait",
+  "lang": "th",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
